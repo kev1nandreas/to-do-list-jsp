@@ -18,7 +18,7 @@ public class TaskDAO {
     private String jdbcPassword = "";
 
     private static final String INSERT_TASK_SQL = "INSERT INTO task" + "  (name, duedate, description, status) VALUES " +
-        " (?, ?, ?, ?);";
+        " (?, ?, ?, false);";
 
     private static final String SELECT_TASK_BY_ID = "select id,name,duedate,description,status from task where id =?";
     private static final String SELECT_ALL_TASK = "select * from task";

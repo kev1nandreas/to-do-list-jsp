@@ -155,13 +155,18 @@ body, p, h1, h2, h3, h4, h5, h6, a {
 							<td><c:out value="${task.status}" /></td>
 							<td class="text-center">
 								<form action="edit" method="get" style="display: inline;">
-									<input type="hidden" name="id" value="${user.id}" />
+									<input type="hidden" name="id" value="${task.id}" />
 									<button type="submit" class="btn btn-custom-edit">Edit</button>
 								</form>
 
 								<form action="delete" method="get" style="display: inline;">
-									<input type="hidden" name="id" value="${user.id}" />
+									<input type="hidden" name="id" value="${task.id}" />
 									<button type="submit" class="btn btn-custom-edit1">Delete</button>
+								</form>
+								<form action="status" method="get" style="display: inline;">
+								    <input type="hidden" name="id" value="${task.id}" />
+								    <input type="hidden" name="status" value="${task.status}" />
+								    <button type="submit" class="btn btn-custom-edit1">Check</button>
 								</form>
 							</td>
 						</tr>

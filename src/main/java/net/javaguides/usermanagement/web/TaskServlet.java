@@ -60,6 +60,7 @@ public class TaskServlet extends HttpServlet {
                 case "/status":
                     updateTaskStatus(request, response);
                     break;
+                
                 default:
                     listTask(request, response);
                     break;
@@ -97,11 +98,11 @@ public class TaskServlet extends HttpServlet {
         String name = request.getParameter("name");
         try {
         String dateString = request.getParameter("duedate");
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
         Date parsedDate = sdf.parse(dateString);
         Timestamp duedate = new Timestamp(parsedDate.getTime());
         String description = request.getParameter("description");
-        
+        //String status = request.getParameter("status");
         Task newTask = new Task(name, duedate, description, false);
         taskDAO.insertTask(newTask);
         response.sendRedirect("list");
@@ -115,19 +116,29 @@ public class TaskServlet extends HttpServlet {
     throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
+        try {
+        String dateString = request.getParameter("duedate");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        Date parsedDate = sdf.parse(dateString);
+        Timestamp duedate = new Timestamp(parsedDate.getTime());
         String description = request.getParameter("description");
-        String duedate = request.getParameter("duedate"); // Assuming the format is compatible with `Timestamp`
-
-        Task updatedTask = new Task(id, name, Timestamp.valueOf(duedate), description, false);
+        boolean status = Boolean.parseBoolean(request.getParameter("status"));
+        Task updatedTask = new Task(id, name, duedate, description, status);
         taskDAO.updateTask(updatedTask);
         response.sendRedirect("list");
+        } catch(Exception e) {
+        	e.printStackTrace();
+        }
+
     }
 
     private void updateTaskStatus(HttpServletRequest request, HttpServletResponse response)
     throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         boolean status = Boolean.parseBoolean(request.getParameter("status"));
-
+        status = !status;
+        System.out.println("Parsed status: " + status);
+        
         taskDAO.updateTaskStatus(id, status);
         response.sendRedirect("list");
     }

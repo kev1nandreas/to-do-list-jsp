@@ -115,13 +115,7 @@
                     <textarea class="form-control" name="description"><c:out value='${task.description}' /></textarea>
                 </fieldset>
 
-                <fieldset class="form-group">
-                    <label>Status</label>
-                    <select class="form-control" name="status">
-                        <option value="true" <c:if test="${task.status == true}">selected</c:if>>Completed</option>
-                        <option value="false" <c:if test="${task.status == false}">selected</c:if>>Pending</option>
-                    </select>
-                </fieldset>
+
 
                 <div class="text-center">
                     <button type="submit" class="btn btn-custom text-center">Save</button>
