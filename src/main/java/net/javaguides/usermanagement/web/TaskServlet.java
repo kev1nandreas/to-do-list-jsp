@@ -60,6 +60,9 @@ public class TaskServlet extends HttpServlet {
                 case "/status":
                     updateTaskStatus(request, response);
                     break;
+                case "/find":
+                	listSpesificTask(request, response);
+                    break;
                 
                 default:
                     listTask(request, response);
@@ -76,6 +79,17 @@ public class TaskServlet extends HttpServlet {
         request.setAttribute("listTask", listTask);
         RequestDispatcher dispatcher = request.getRequestDispatcher("task-list.jsp");
         dispatcher.forward(request, response);
+    }
+    
+    private void listSpesificTask(HttpServletRequest request, HttpServletResponse response)
+    throws SQLException, IOException, ServletException {
+    	String keyword = request.getParameter("keyword");
+    	System.out.println(keyword);
+    	List<Task> listTask = taskDAO.findTask(keyword);
+    	System.out.println("testtttttttttttttttt");
+    	request.setAttribute("listTask", listTask);
+    	RequestDispatcher dispatcher = request.getRequestDispatcher("task-list.jsp");
+    	dispatcher.forward(request, response);
     }
 
     private void showNewForm(HttpServletRequest request, HttpServletResponse response)
