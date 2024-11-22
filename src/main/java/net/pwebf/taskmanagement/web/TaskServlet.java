@@ -1,4 +1,4 @@
-package net.pwebf.taskmanagement.web;
+/*package net.pwebf.taskmanagement.web;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.pwebf.taskmanagement.dao.TaskDAO;
 import net.pwebf.taskmanagement.model.Task;
 
-@WebServlet("/dashboard")
+@WebServlet("/ji")
 public class TaskServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     public static int u_id = -1; // placeholder uid
@@ -65,9 +65,7 @@ public class TaskServlet extends HttpServlet {
                 	listSpesificTask(request, response);
                     break;
                 
-                default:
-                    listTask(request, response);
-                    break;
+                
             }
         } catch (SQLException ex) {
             throw new ServletException(ex);
@@ -164,4 +162,4 @@ public class TaskServlet extends HttpServlet {
         taskDAO.deleteTask(id);
         response.sendRedirect("list");
     }
-}
+}*/

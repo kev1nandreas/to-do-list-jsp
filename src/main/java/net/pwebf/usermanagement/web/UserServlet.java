@@ -2,6 +2,11 @@ package net.pwebf.usermanagement.web;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.pwebf.taskmanagement.dao.TaskDAO;
-import net.pwebf.taskmanagement.web.TaskServlet;
+import net.pwebf.taskmanagement.model.Task;
+//import net.pwebf.taskmanagement.web.TaskServlet;
 import net.pwebf.usermanagement.dao.UserDAO;
 import net.pwebf.usermanagement.model.User;
 
@@ -18,10 +24,13 @@ import net.pwebf.usermanagement.model.User;
 public class UserServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private UserDAO userDAO;
+    private TaskDAO taskDAO;
+    public static int u_id = -1; // placeholder uid
 
     @Override
     public void init() {
         userDAO = new UserDAO();
+        taskDAO = new TaskDAO();
     }
 
     @Override
@@ -49,9 +58,32 @@ public class UserServlet extends HttpServlet {
                 case "/authenticate":
                     authenticateUser(request, response);
                     break;
+                case "/task/new":
+                	showNewForm(request, response);
+                    break;
+                case "/task/insert":
+                    insertTask(request, response);
+                    break;
+                case "/task/delete":
+                    deleteTask(request, response);
+                    break;
+                case "/task/edit":
+                    showEditForm(request, response);
+                    break;
+                case "/task/update":
+                    updateTask(request, response);
+                    break;
+                case "/task/status":
+                    updateTaskStatus(request, response);
+                    break;
+                case "/task/find":
+                	listSpesificTask(request, response);
+                    break;
+                case "/task":
+                	listTask(request, response);
+                    break;
                 default:
                 	showLoginForm(request, response);
-                    break;
             }
         } catch (Exception ex) {
             throw new ServletException(ex);
@@ -119,16 +151,16 @@ public class UserServlet extends HttpServlet {
                 // Successful login, redirect to user homepage
             	  
                  TaskDAO.u_id = validCredential;
-                 TaskServlet.u_id = validCredential;
+                 UserServlet.u_id = validCredential;
                  
  
                  String contextPath = request.getContextPath();
 
-            	 response.sendRedirect(contextPath + "/dashboard");
+            	 response.sendRedirect(contextPath + "/task");
             	 
             } else {
                 // Invalid credentials, show error message
-            	System.out.println("stupid");
+            	
                 request.setAttribute("error", "Invalid credentials!");
                 RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
                 dispatcher.forward(request, response);
@@ -138,4 +170,97 @@ public class UserServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Authentication failed!");
         }
     }
-}
+    private void listTask(HttpServletRequest request, HttpServletResponse response)
+    	    throws SQLException, IOException, ServletException {
+    	        List<Task> listTask = taskDAO.selectAlltask();
+    	        request.setAttribute("listTask", listTask);
+    	        RequestDispatcher dispatcher = request.getRequestDispatcher("task-list.jsp");
+    	        dispatcher.forward(request, response);
+    	    }
+    	    
+    	    private void listSpesificTask(HttpServletRequest request, HttpServletResponse response)
+    	    throws SQLException, IOException, ServletException {
+    	    	String keyword = request.getParameter("keyword");
+    	    	System.out.println(keyword);
+    	    	List<Task> listTask = taskDAO.findTask(keyword);
+    	    	
+    	    	request.setAttribute("listTask", listTask);
+    	    	RequestDispatcher dispatcher = request.getRequestDispatcher("task-list.jsp");
+    	    	dispatcher.forward(request, response);
+    	    }
+
+    	    private void showNewForm(HttpServletRequest request, HttpServletResponse response)
+    	    throws ServletException, IOException {
+    	        RequestDispatcher dispatcher = request.getRequestDispatcher("task-form.jsp");
+    	        dispatcher.forward(request, response);
+    	    }
+
+    	    private void showEditForm(HttpServletRequest request, HttpServletResponse response)
+    	    throws SQLException, ServletException, IOException {
+    	        int id = Integer.parseInt(request.getParameter("id"));
+    	        Task existingTask = taskDAO.selectTask(id);
+    	        RequestDispatcher dispatcher = request.getRequestDispatcher("task-form.jsp");
+    	        request.setAttribute("task", existingTask);
+    	        dispatcher.forward(request, response);
+    	    }
+
+    	    private void insertTask(HttpServletRequest request, HttpServletResponse response)
+    	    throws SQLException, IOException {
+    	        String name = request.getParameter("name");
+    	        try {
+    	        String dateString = request.getParameter("duedate");
+    	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+    	        Date parsedDate = sdf.parse(dateString);
+    	        Timestamp duedate = new Timestamp(parsedDate.getTime());
+    	        String description = request.getParameter("description");
+
+    	        //String status = request.getParameter("status");
+    	        Task newTask = new Task(name, duedate, description, false, u_id);
+    	        taskDAO.insertTask(newTask);
+    	        response.sendRedirect("list");
+    	        } catch(Exception e) {
+    	        	e.printStackTrace();
+    	        }
+
+    	    }
+
+    	    private void updateTask(HttpServletRequest request, HttpServletResponse response)
+    	    throws SQLException, IOException {
+    	        int id = Integer.parseInt(request.getParameter("id"));
+    	        String name = request.getParameter("name");
+    	        try {
+    	        String dateString = request.getParameter("duedate");
+    	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+    	        Date parsedDate = sdf.parse(dateString);
+    	        Timestamp duedate = new Timestamp(parsedDate.getTime());
+    	        String description = request.getParameter("description");
+    	        
+    	        boolean status = Boolean.parseBoolean(request.getParameter("status"));
+    	        Task updatedTask = new Task(id, name, duedate, description, status, u_id);
+    	        taskDAO.updateTask(updatedTask);
+    	        response.sendRedirect("list");
+    	        } catch(Exception e) {
+    	        	e.printStackTrace();
+    	        }
+
+    	    }
+
+    	    private void updateTaskStatus(HttpServletRequest request, HttpServletResponse response)
+    	    throws SQLException, IOException {
+    	        int id = Integer.parseInt(request.getParameter("id"));
+    	        boolean status = Boolean.parseBoolean(request.getParameter("status"));
+    	        status = !status;
+    	        taskDAO.updateTaskStatus(id, status);
+    	        response.sendRedirect("list");
+    	    }
+
+    	    private void deleteTask(HttpServletRequest request, HttpServletResponse response)
+    	    throws SQLException, IOException {
+    	        int id = Integer.parseInt(request.getParameter("id"));
+    	        taskDAO.deleteTask(id);
+    	        response.sendRedirect("list");
+    	    }
+    	}
+
+    
+

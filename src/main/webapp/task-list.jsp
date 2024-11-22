@@ -454,7 +454,7 @@
 
             <div class="flex mt-8">
               <div>
-                <a href="new">
+                <a href="/dashboard/new">
                   <button type="button" class="btn btn-dark">Add New Task</button>
                 </a>
               </div>
