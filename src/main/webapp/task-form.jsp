@@ -1,119 +1,152 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!doctype html>
-<html lang="en" data-bs-theme="auto">
+<html>
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="">
-  <title>Create a New Task</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <!-- Tempus Dominus CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.2.8/dist/css/tempus-dominus.min.css" rel="stylesheet">
-  
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-  <style>
-	  	html,
-	body {
-	  height: 100%;
-	  color: 
-	}
-	
-	.form-signin {
-	  max-width: 330px;
-	  padding: 1rem;
-	}
-	
-	.form-signin .form-floating:focus-within {
-	  z-index: 2;
-	}
-	
-	.form-signin input[type="email"] {
-	  margin-bottom: -1px;
-	  border-bottom-right-radius: 0;
-	  border-bottom-left-radius: 0;
-	}
-	
-	.form-signin input[type="password"] {
-	  margin-bottom: 10px;
-	  border-top-left-radius: 0;
-	  border-top-right-radius: 0;
-	}
-	
-	
-	
-	.form-signin {
-	  background-color: #40E4D3;
-	  padding: 2rem;
-	  border-radius: 0.5rem;
-	  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-	}
-	
-	.form {
-	  back
-  
-  </style>
+    <title>Task Management</title>
+    <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+
+	<style>
+    .bg-custom {
+        background: linear-gradient(to right, #0057A8, #0073E6, #00C2FF, #28D8C1); /* Cool blue gradient */
+        background-color: #0057A8; /* Fallback color */
+    }
+
+    .nav-link-custom {
+        font-size: 18px;
+        font-weight: 600;
+        color: #F0F8FF; /* Light cyan for better contrast */
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .nav-link-custom:hover {
+        color: #FFD700; /* Golden color for hover effect */
+    }
+
+    .nav-link-custom1 {
+        font-size: 18px;
+        color: #E0FFFF; /* Pale cyan for softer text appearance */
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .nav-link-custom1:hover {
+        color: #FFA500; /* Orange for a lively hover effect */
+    }
+
+    .navbar {
+        height: 80px;
+        padding: 10px 20px;
+        background-color: #003366; /* Deep navy for a strong header */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    body, p, h1, h2, h3, h4, h5, h6, a {
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+    }
+
+    .nav-link {
+        color: #F0F8FF; /* Matching light cyan for consistency */
+        transition: color 0.3s ease;
+    }
+
+    .nav-link:hover {
+        color: #00FFFF; /* Bright aqua for hover */
+    }
+
+    .btn-custom {
+        background: linear-gradient(to right, #0073E6, #00C2FF); /* Gradient for buttons */
+        color: #FFFFFF; /* White for readability */
+        border: none;
+        padding: 10px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 16px;
+    }
+
+    .btn-custom:hover {
+        background: linear-gradient(to right, #0057A8, #28D8C1); /* Shifted gradient for hover */
+        color: #FFFFFF;
+        transform: translateY(-2px); /* Lift effect */
+    }
+</style>
+
+
 </head>
 
-<body class="d-flex align-items-center py-4 bg-body-tertiary">
-  <main class="form-signin w-100 m-auto">
-    <form method="POST" action="<%= request.getContextPath() %>/task">
-      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+<body>
 
-      
+    <header>
+        <nav class="navbar navbar-expand-md bg-custom">
+            <div>
+                <a href="#" class="nav-link-custom ml-5"> Task Manager </a>
+            </div>
 
-      <div class="form">
-        <h1 class="h3 mb-3 fw-normal">Create a New Task</h1>
+            <ul class="navbar-nav">
+                <li><a href="<%=request.getContextPath()%>/taskList"
+                    class="nav-link-custom1 ml-5">Tasks</a></li>
+            </ul>
+        </nav>
+    </header>
+    <br>
+    <div class="container col-md-5">
+        <div class="card">
+            <div class="card-body">
+                <div class="text-center">
+                    <c:if test="${task != null}">
+                    
+                        <form action="update" method="post">
+                    </c:if>
+                    <c:if test="${task == null}">
+                        <form action="insert" method="post">
+                    </c:if>
+                    <caption>
+                        <h2>
+                            <c:if test="${task != null}">
+                                Edit Task
+                            </c:if>
+                            <c:if test="${task == null}">
+                                Add New Task
+                            </c:if>
+                        </h2>
+                    </caption>
+                </div>
 
-        <!-- Task name input -->
-        <div class="form-floating mb-3">
-          <input type="text" name="name" class="form-control" id="taskName" placeholder="Task Name" value="<%= request.getParameter("name") %>">
-          <label for="taskName">Task Name</label>
+                <c:if test="${task != null}">
+                    <input type="hidden" name="id" value="<c:out value='${task.id}' />" />
+                </c:if>
+
+                <fieldset class="form-group">
+                    <label>Task Name</label> 
+                    <input type="text" value="<c:out value='${task.name}' />" class="form-control" name="name" required="required">
+                </fieldset>
+
+                <fieldset class="form-group">
+                    <label>Due Date</label>
+                    <input type="datetime-local" value="<c:out value='${task.duedate}' />" class="form-control" name="duedate" required="required">
+                </fieldset>
+
+                <fieldset class="form-group">
+                    <label>Description</label> 
+                    <textarea class="form-control" name="description"><c:out value='${task.description}' /></textarea>
+                </fieldset>
+
+
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-custom text-center">Save</button>
+                </div>
+
+                </form>
+            </div>
         </div>
-
-        <!-- Due date input -->
-        <div class="form-floating mb-3">
-          <div class="input-group" id="datetimepicker">
-            <input type="text" name="due_date" class="form-control" placeholder="Select Date and Time" value="<%= request.getParameter("due_date") %>" />
-            <span class="input-group-text">
-              <i class="bi bi-calendar"></i>
-            </span>
-          </div>
-        </div>
-
-        <!-- Description Input -->
-        <div class="form-floating mb-3">
-          <input type="text" name="description" class="form-control" id="description" placeholder="Description">
-          <label for="description">Description</label>
-        </div>
-
-        <button class="btn btn-primary w-100 py-2" type="submit">Create Task</button>
-      </div>
-    </form>
-  </main>
-
-  <!-- Bootstrap JS and Tempus Dominus -->
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-wEuXZRnXWoiUM1r0d0Pe+Zo0r+T5rOnokj3zEN1Jsno6ZIaXg4pnePLfwca8LkUH" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.2.8/dist/js/tempus-dominus.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const picker = new tempusDominus.TempusDominus(document.getElementById('datetimepicker'), {
-        display: {
-          components: {
-            calendar: true,
-            clock: true,
-          }
-        },
-        localization: {
-          locale: 'en-US',
-        }
-      });
-    });
-  </script>
+    </div>
 </body>
 
 </html>
