@@ -23,6 +23,10 @@ public class User {
         this.notify = notify;
         this.notify_before = notify_before;
     }
+    public User(String username, String password) {
+    	this.username = username;
+    	this.password = password;
+    }
 
     // Getters and Setters
     public int getId() {

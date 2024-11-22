@@ -86,7 +86,7 @@ public class TaskServlet extends HttpServlet {
     	String keyword = request.getParameter("keyword");
     	System.out.println(keyword);
     	List<Task> listTask = taskDAO.findTask(keyword);
-    	System.out.println("testtttttttttttttttt");
+    	
     	request.setAttribute("listTask", listTask);
     	RequestDispatcher dispatcher = request.getRequestDispatcher("task-list.jsp");
     	dispatcher.forward(request, response);
