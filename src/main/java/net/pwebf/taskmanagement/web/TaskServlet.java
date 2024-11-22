@@ -1,4 +1,4 @@
-package net.javaguides.usermanagement.web;
+package net.pwebf.taskmanagement.web;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -16,10 +16,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.javaguides.usermanagement.dao.TaskDAO;
-import net.javaguides.usermanagement.model.Task;
+import net.pwebf.taskmanagement.dao.TaskDAO;
+import net.pwebf.taskmanagement.model.Task;
 
-@WebServlet("/")
+@WebServlet("/user")
 public class TaskServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private TaskDAO taskDAO;
