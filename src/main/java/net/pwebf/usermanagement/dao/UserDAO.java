@@ -46,8 +46,24 @@ public class UserDAO {
         }
         return result;
     }
-    public boolean validate(User user) throws ClassNotFoundException {
-        boolean status = false;
+    public Integer getUserIdByCredentials(String username, String password) throws SQLException {
+        String sql = "SELECT id FROM users WHERE username = ? AND password = ?";
+        try (Connection connection = DriverManager
+                .getConnection("jdbc:mysql://localhost:3306/demo?useSSL=false", "root", "");
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id"); // Return the user ID if credentials are valid
+            }
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+        return null; // Return null if no user found
+    }
+    public Integer validate(User user) throws ClassNotFoundException {
+    	Integer userId = -1;
 
         Class.forName("com.mysql.cj.jdbc.Driver");
 
@@ -66,13 +82,15 @@ public class UserDAO {
 
             // Execute the query
             ResultSet rs = preparedStatement.executeQuery();
-            status = rs.next(); // Returns true if a record matches, false otherwise
-
+            if (rs.next()) {
+                userId = rs.getInt("id"); // Get the user ID if credentials match
+            }
+            
         } catch (SQLException e) {
             printSQLException(e); // Log SQL exceptions
         }
 
-        return status;
+        return userId;
     }
 
 

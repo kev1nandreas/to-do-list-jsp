@@ -19,9 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 import net.pwebf.taskmanagement.dao.TaskDAO;
 import net.pwebf.taskmanagement.model.Task;
 
-@WebServlet("/user")
+@WebServlet("/dashboard")
 public class TaskServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    public static int u_id = -1; // placeholder uid
     private TaskDAO taskDAO;
 
     @Override
@@ -39,7 +40,7 @@ public class TaskServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         String action = request.getServletPath();
-
+        System.out.println(action);
         try {
             switch (action) {
                 case "/new":
@@ -116,8 +117,9 @@ public class TaskServlet extends HttpServlet {
         Date parsedDate = sdf.parse(dateString);
         Timestamp duedate = new Timestamp(parsedDate.getTime());
         String description = request.getParameter("description");
+
         //String status = request.getParameter("status");
-        Task newTask = new Task(name, duedate, description, false);
+        Task newTask = new Task(name, duedate, description, false, u_id);
         taskDAO.insertTask(newTask);
         response.sendRedirect("list");
         } catch(Exception e) {
@@ -136,8 +138,9 @@ public class TaskServlet extends HttpServlet {
         Date parsedDate = sdf.parse(dateString);
         Timestamp duedate = new Timestamp(parsedDate.getTime());
         String description = request.getParameter("description");
+        
         boolean status = Boolean.parseBoolean(request.getParameter("status"));
-        Task updatedTask = new Task(id, name, duedate, description, status);
+        Task updatedTask = new Task(id, name, duedate, description, status, u_id);
         taskDAO.updateTask(updatedTask);
         response.sendRedirect("list");
         } catch(Exception e) {

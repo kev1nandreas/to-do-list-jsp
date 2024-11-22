@@ -38,7 +38,7 @@
             </form>
 
             <p class="text-center mt-3 ">Already a member?
-                <span class="font-bold hover:text-red-400"><a href="">Login</a></span>
+                <span class="font-bold hover:text-red-400"><a href="/login">Login</a></span>
             </p>
         </div>
     </div>
