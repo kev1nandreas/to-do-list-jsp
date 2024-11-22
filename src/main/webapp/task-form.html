@@ -9,53 +9,75 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
         crossorigin="anonymous">
 
-    <style>
-        .bg-custom {
-            background: linear-gradient(to right, #8A48F4, #A051D1, #D27C6F, #FFB712);
-            background-color: #542870;
-        }
+	<style>
+    .bg-custom {
+        background: linear-gradient(to right, #0057A8, #0073E6, #00C2FF, #28D8C1); /* Cool blue gradient */
+        background-color: #0057A8; /* Fallback color */
+    }
 
-        .nav-link-custom {
-            font-size: 20px;
-            font-weight: bold;
-            color: #fafafa;
-            text-decoration: none !important;
-        }
+    .nav-link-custom {
+        font-size: 18px;
+        font-weight: 600;
+        color: #F0F8FF; /* Light cyan for better contrast */
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
 
-        .nav-link-custom1 {
-            font-size: 20px;
-            color: #fafafa;
-            text-decoration: none !important;
-        }
+    .nav-link-custom:hover {
+        color: #FFD700; /* Golden color for hover effect */
+    }
 
-        .navbar {
-            height: 100px;
-        }
+    .nav-link-custom1 {
+        font-size: 18px;
+        color: #E0FFFF; /* Pale cyan for softer text appearance */
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
 
-        body, p, h1, h2, h3, h4, h5, h6, a {
-            font-family: 'Poppins', sans-serif;
-        }
+    .nav-link-custom1:hover {
+        color: #FFA500; /* Orange for a lively hover effect */
+    }
 
-        .nav-link {
-            color: #fafafa;
-        }
+    .navbar {
+        height: 80px;
+        padding: 10px 20px;
+        background-color: #003366; /* Deep navy for a strong header */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-        .btn-custom {
-            background: linear-gradient(to right, #8a48f4, #D27C6F);
-            color: #fafafa;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-            font-size: 17px;
-        }
+    body, p, h1, h2, h3, h4, h5, h6, a {
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+    }
 
-        .btn-custom:hover {
-            background: linear-gradient(to right, #6e38cc, #a86a5a);
-            color: #fafafa;
-        }
-    </style>
+    .nav-link {
+        color: #F0F8FF; /* Matching light cyan for consistency */
+        transition: color 0.3s ease;
+    }
+
+    .nav-link:hover {
+        color: #00FFFF; /* Bright aqua for hover */
+    }
+
+    .btn-custom {
+        background: linear-gradient(to right, #0073E6, #00C2FF); /* Gradient for buttons */
+        color: #FFFFFF; /* White for readability */
+        border: none;
+        padding: 10px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 16px;
+    }
+
+    .btn-custom:hover {
+        background: linear-gradient(to right, #0057A8, #28D8C1); /* Shifted gradient for hover */
+        color: #FFFFFF;
+        transform: translateY(-2px); /* Lift effect */
+    }
+</style>
+
+
 </head>
 
 <body>
