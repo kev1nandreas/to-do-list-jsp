@@ -375,7 +375,7 @@
 
                 <ul class="nav flex-column mb-auto">
                   <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="/profile">
+                    <a class="nav-link d-flex align-items-center gap-2" href="profile">
                       <svg class="bi">
                         <use xlink:href="#profile-circle" />
                       </svg>
@@ -462,21 +462,34 @@
                       <td>
                         <c:out value="${task.description}" />
                       </td>
+
                       <td>
-                        <c:out value="${task.status}" />
+                        <c:choose>
+                          <c:when test="${task.status == 0}">
+                            <span class="text-red-500">Not Done</span>
+                          </c:when>
+                          <c:when test="${task.status == 1}">
+                            <span class="text-green-500">Done</span>
+                          </c:when>
+                        </c:choose>
                       </td>
+
                       <td>
                         <button type="button" class="btn-transparent d-inline"
+<<<<<<< HEAD
+                          onclick="window.location.href='task/edit?id=${task.id}'">
+=======
                           onclick="window.location.href='edit?id=${task.id}'">
+>>>>>>> 82c20f1edf70711bd6377217c935abbec9ccf235
                           <i class="inline-block" data-feather="edit"></i>
                         </button>
 
                         <button type="button" class="btn-transparent d-inline"
-                          onclick="window.location.href='status?id=${task.id}&status=${task.status}'">
+                          onclick="window.location.href='task/status?id=${task.id}&status=${task.status}'">
                           <i class="inline-block" data-feather="check-circle"></i>
                         </button>
 
-                        <form action="delete?id=${task.id}" method="post" class="d-inline">
+                        <form action="task/delete?id=${task.id}" method="post" class="d-inline">
                           <button type="submit" class="btn-transparent d-inline"
                             onclick="return confirm('Are you sure?')">
                             <i data-feather="trash-2"></i>

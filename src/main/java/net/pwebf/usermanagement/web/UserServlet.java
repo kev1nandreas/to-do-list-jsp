@@ -82,6 +82,9 @@ public class UserServlet extends HttpServlet {
                 case "/task":
                 	listTask(request, response);
                     break;
+                case "/profile":
+                	seeProfile(request, response);
+                    break;
                 default:
                 	showLoginForm(request, response);
             }
@@ -138,7 +141,6 @@ public class UserServlet extends HttpServlet {
     private void authenticateUser(HttpServletRequest request, HttpServletResponse response)
     throws SQLException, IOException {
         String username = request.getParameter("username");
-        
         String password = request.getParameter("password");
 
         try {
@@ -152,10 +154,7 @@ public class UserServlet extends HttpServlet {
             	  
                  TaskDAO.u_id = validCredential;
                  UserServlet.u_id = validCredential;
-                 
- 
                  String contextPath = request.getContextPath();
-
             	 response.sendRedirect(contextPath + "/task");
             	 
             } else {
@@ -259,6 +258,14 @@ public class UserServlet extends HttpServlet {
     	        int id = Integer.parseInt(request.getParameter("id"));
     	        taskDAO.deleteTask(id);
     	        response.sendRedirect("task");
+    	    }
+
+            private void seeProfile(HttpServletRequest request, HttpServletResponse response)
+    	    throws SQLException, IOException, ServletException {
+    	        User profile = userDAO.selectProfile();
+    	        request.setAttribute("profile", profile);
+    	        RequestDispatcher dispatcher = request.getRequestDispatcher("profile.jsp");
+    	        dispatcher.forward(request, response);
     	    }
     	}
 
