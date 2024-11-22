@@ -137,8 +137,6 @@ public class TaskServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         boolean status = Boolean.parseBoolean(request.getParameter("status"));
         status = !status;
-        System.out.println("Parsed status: " + status);
-        
         taskDAO.updateTaskStatus(id, status);
         response.sendRedirect("list");
     }
