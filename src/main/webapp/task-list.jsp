@@ -362,7 +362,7 @@
               <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
                 <ul class="nav flex-column">
                   <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="/">
+                    <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="<%= request.getContextPath() %>/task">
                       <svg class="bi">
                         <use xlink:href="#house-fill" />
                       </svg>
@@ -383,15 +383,7 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="/settings">
-                      <svg class="bi">
-                        <use xlink:href="#gear-wide-connected" />
-                      </svg>
-                      Settings
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="/logout">
+                    <a class="nav-link d-flex align-items-center gap-2" href="<%= request.getContextPath() %>">
                       <svg class="bi">
                         <use xlink:href="#door-closed" />
                       </svg>
