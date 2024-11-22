@@ -10,6 +10,19 @@ import net.pwebf.usermanagement.model.User;
 
 public class UserDAO {
 
+    private int authID = -1;
+
+    protected Connection getConnection() {
+        Connection connection = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo?useSSL=false", "root", "");
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return connection;
+    }
+
     public int registerUser(User user) throws ClassNotFoundException {
     	//System.out.println("hi1");
         String INSERT_USER_SQL = "INSERT INTO users" +
@@ -90,6 +103,7 @@ public class UserDAO {
             printSQLException(e); // Log SQL exceptions
         }
 
+        authID = userId; // Set the authID to the user ID
         return userId;
     }
 
@@ -109,4 +123,34 @@ public class UserDAO {
             }
         }
     }
+
+    public User selectProfile() {
+        User user = new User();
+        // Step 1: Establishing a Connection
+        try (Connection connection = getConnection();
+            // Step 2:Create a statement using connection object
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from users where id = ?");) {
+            preparedStatement.setInt(1, this.authID);
+            System.out.println(preparedStatement);
+            // Step 3: Execute the query or update query
+            ResultSet rs = preparedStatement.executeQuery();
+
+            // Step 4: Process the ResultSet object.
+            while (rs.next()) {
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                String phone = rs.getString("phone");
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                boolean notify = rs.getBoolean("notify");
+                int notify_before = rs.getInt("notify_before");
+                user = new User(this.authID, name, email, phone, username, password, notify, notify_before);
+            }
+
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+        return user;
+    }
+
 }
