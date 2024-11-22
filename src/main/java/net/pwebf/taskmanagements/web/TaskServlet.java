@@ -1,4 +1,4 @@
-package net.pwebf.usermanagement.web;
+package net.pwebf.taskmanagements.web;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.pwebf.usermanagement.dao.TaskDAO;
-import net.pwebf.usermanagement.model.Task;
+import net.pwebf.taskmanagements.dao.TaskDAO;
+import net.pwebf.taskmanagements.model.Task;
 
 @WebServlet("/")
 public class TaskServlet extends HttpServlet {

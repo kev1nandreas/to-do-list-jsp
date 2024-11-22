@@ -1,4 +1,4 @@
-package net.pwebf.usermanagement.model;
+package net.pwebf.taskmanagements.model;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
