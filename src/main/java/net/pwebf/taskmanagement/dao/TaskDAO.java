@@ -14,15 +14,16 @@ public class TaskDAO {
     private String jdbcURL = "jdbc:mysql://localhost:3306/demo?useSSL=false";
     private String jdbcUsername = "root";
     private String jdbcPassword = "";
-
-    private static final String INSERT_TASK_SQL = "INSERT INTO task" + "  (name, duedate, description, status) VALUES " +
-        " (?, ?, ?, false);";
-    private static final String SELECT_TASK_BY_ID = "select id,name,duedate,description,status from task where id =?";
-    private static final String SELECT_ALL_TASK = "select * from task";
+    
+    public static int u_id; //Placeholder uid 
+    private static final String INSERT_TASK_SQL = "INSERT INTO task" + "  (name, duedate, description, status, u_id) VALUES " +
+        " (?, ?, ?, false, ?);";
+    private static final String SELECT_TASK_BY_ID = "select id,name,duedate,description,status from task where id = ?";
+    private static final String SELECT_ALL_TASK = "select * from task where u_id = ?";
     private static final String DELETE_TASK_SQL = "delete from task where id = ?;";
     private static final String UPDATE_TASK_SQL = "update task set name = ?,duedate= ?, description =? where id = ?;";
     private static final String UPDATE_STATUS_SQL = "update task set status = ? where id = ?;";
-    private static final String SELECT_FIND_TASK = "select * from task where name like ?";
+    private static final String SELECT_FIND_TASK = "select * from task where name like ? and u_id = ?";
 
     public TaskDAO() {}
 
@@ -45,6 +46,7 @@ public class TaskDAO {
             preparedStatement.setString(1, task.getName());
             preparedStatement.setTimestamp(2, task.getDuedate());
             preparedStatement.setString(3, task.getDescription());
+            preparedStatement.setInt(4, u_id);
             System.out.println(preparedStatement);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -69,7 +71,8 @@ public class TaskDAO {
                 Timestamp duedate = rs.getTimestamp("duedate");
                 String description = rs.getString("description");
                 boolean status = rs.getBoolean("status");
-                task = new Task(id, name, duedate, description, status);
+                
+                task = new Task(id, name, duedate, description, status, u_id);
             }
         } catch (SQLException e) {
             printSQLException(e);
@@ -85,7 +88,10 @@ public class TaskDAO {
         try (Connection connection = getConnection();
 
             // Step 2:Create a statement using connection object
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_TASK);) {
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_TASK);)
+        
+        {
+        	preparedStatement.setInt(1, u_id); 
             System.out.println(preparedStatement);
             // Step 3: Execute the query or update query
             ResultSet rs = preparedStatement.executeQuery();
@@ -97,7 +103,8 @@ public class TaskDAO {
                 Timestamp duedate = rs.getTimestamp("duedate");
                 String description = rs.getString("description");
                 boolean status = rs.getBoolean("status");
-                tasks.add(new Task(id, name, duedate, description, status));
+                
+                tasks.add(new Task(id, name, duedate, description, status, u_id));
             }
         } catch (SQLException e) {
             printSQLException(e);
@@ -115,6 +122,7 @@ public class TaskDAO {
             // Step 2:Create a statement using connection object
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_FIND_TASK);) {
         	preparedStatement.setString(1, "%" + name + "%");
+        	preparedStatement.setInt(2, u_id); 
             // Step 3: Execute the query or update query
             ResultSet rs = preparedStatement.executeQuery();
 
@@ -125,7 +133,8 @@ public class TaskDAO {
                 Timestamp duedate = rs.getTimestamp("duedate");
                 String description = rs.getString("description");
                 boolean status = rs.getBoolean("status");
-                tasks.add(new Task(id, names, duedate, description, status));
+                
+                tasks.add(new Task(id, names, duedate, description, status,u_id));
             }
         } catch (SQLException e) {
             printSQLException(e);

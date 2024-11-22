@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.pwebf.taskmanagement.dao.TaskDAO;
+import net.pwebf.taskmanagement.web.TaskServlet;
 import net.pwebf.usermanagement.dao.UserDAO;
 import net.pwebf.usermanagement.model.User;
 
@@ -56,12 +58,7 @@ public class UserServlet extends HttpServlet {
         }
     }
 
-    /*private void showHomePage(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        // Display a list of users or home page.
-        RequestDispatcher dispatcher = request.getRequestDispatcher("user-home.jsp");
-        dispatcher.forward(request, response);
-    }*/
+
 
     private void showRegisterForm(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
@@ -105,7 +102,7 @@ public class UserServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
         dispatcher.forward(request, response);
     }
-
+    
     private void authenticateUser(HttpServletRequest request, HttpServletResponse response)
     throws SQLException, IOException {
         String username = request.getParameter("username");
@@ -115,14 +112,23 @@ public class UserServlet extends HttpServlet {
         try {
             User user = new User(username, password);
 
-            boolean validCredential = userDAO.validate(user);
+            int validCredential = userDAO.validate(user);
 
 
-            if (validCredential) {
+            if (validCredential != -1) {
                 // Successful login, redirect to user homepage
-            	response.sendRedirect("/" + username);
+            	  
+                 TaskDAO.u_id = validCredential;
+                 TaskServlet.u_id = validCredential;
+                 
+ 
+                 String contextPath = request.getContextPath();
+
+            	 response.sendRedirect(contextPath + "/dashboard");
+            	 
             } else {
                 // Invalid credentials, show error message
+            	System.out.println("stupid");
                 request.setAttribute("error", "Invalid credentials!");
                 RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
                 dispatcher.forward(request, response);

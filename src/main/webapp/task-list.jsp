@@ -514,7 +514,7 @@
                       </td>
                       <td>
                         <button type="button" class="btn-transparent d-inline"
-                          onclick="window.location.href='edit?id=${task.id}'">
+                          onclick="window.location.href='/edit?id=${task.id}'">
                           <i class="inline-block" data-feather="edit"></i>
                         </button>
 

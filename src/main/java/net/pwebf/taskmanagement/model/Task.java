@@ -8,25 +8,28 @@ public class Task {
 	protected Timestamp duedate;
 	protected String description;
 	protected boolean status;
-
+	protected int u_id;
+	
 	public Task() {
 	}
 
-	public Task(String name, Timestamp duedate, String description, boolean status) {
+	public Task(String name, Timestamp duedate, String description, boolean status, int u_id) {
 		super();
 		this.name = name;
 		this.duedate = duedate;
 		this.description = description;
 		this.status = status;
+		this.u_id = u_id;
 	}
 
-	public Task(int id, String name, Timestamp duedate, String description, boolean status) {
+	public Task(int id, String name, Timestamp duedate, String description, boolean status, int u_id) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.duedate = duedate;
 		this.description = description;
 		this.status = status;
+		this.u_id = u_id;
 	}
 
     // Getter and Setter for id
@@ -36,6 +39,14 @@ public class Task {
 
     public void setId(int id) {
         this.id = id;
+    }
+    // Getter and Setter for id
+    public int getUid() {
+        return id;
+    }
+
+    public void setUid(int u_id) {
+        this.u_id = u_id;
     }
 
     // Getter and Setter for name
