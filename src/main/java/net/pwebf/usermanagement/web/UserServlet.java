@@ -58,25 +58,25 @@ public class UserServlet extends HttpServlet {
                 case "/authenticate":
                     authenticateUser(request, response);
                     break;
-                case "/task/new":
+                case "/new":
                 	showNewForm(request, response);
                     break;
-                case "/task/insert":
+                case "/insert":
                     insertTask(request, response);
                     break;
-                case "/task/delete":
+                case "/delete":
                     deleteTask(request, response);
                     break;
-                case "/task/edit":
+                case "/edit":
                     showEditForm(request, response);
                     break;
-                case "/task/update":
+                case "/update":
                     updateTask(request, response);
                     break;
-                case "/task/status":
+                case "/status":
                     updateTaskStatus(request, response);
                     break;
-                case "/task/find":
+                case "/find":
                 	listSpesificTask(request, response);
                     break;
                 case "/task":
@@ -217,7 +217,7 @@ public class UserServlet extends HttpServlet {
     	        //String status = request.getParameter("status");
     	        Task newTask = new Task(name, duedate, description, false, u_id);
     	        taskDAO.insertTask(newTask);
-    	        response.sendRedirect("list");
+    	        response.sendRedirect("task");
     	        } catch(Exception e) {
     	        	e.printStackTrace();
     	        }
@@ -238,7 +238,7 @@ public class UserServlet extends HttpServlet {
     	        boolean status = Boolean.parseBoolean(request.getParameter("status"));
     	        Task updatedTask = new Task(id, name, duedate, description, status, u_id);
     	        taskDAO.updateTask(updatedTask);
-    	        response.sendRedirect("list");
+    	        response.sendRedirect("task");
     	        } catch(Exception e) {
     	        	e.printStackTrace();
     	        }
@@ -251,14 +251,14 @@ public class UserServlet extends HttpServlet {
     	        boolean status = Boolean.parseBoolean(request.getParameter("status"));
     	        status = !status;
     	        taskDAO.updateTaskStatus(id, status);
-    	        response.sendRedirect("list");
+    	        response.sendRedirect("task");
     	    }
 
     	    private void deleteTask(HttpServletRequest request, HttpServletResponse response)
     	    throws SQLException, IOException {
     	        int id = Integer.parseInt(request.getParameter("id"));
     	        taskDAO.deleteTask(id);
-    	        response.sendRedirect("list");
+    	        response.sendRedirect("task");
     	    }
     	}
 
