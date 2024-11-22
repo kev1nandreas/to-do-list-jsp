@@ -476,11 +476,7 @@
 
                       <td>
                         <button type="button" class="btn-transparent d-inline"
-<<<<<<< HEAD
-                          onclick="window.location.href='task/edit?id=${task.id}'">
-=======
                           onclick="window.location.href='edit?id=${task.id}'">
->>>>>>> 82c20f1edf70711bd6377217c935abbec9ccf235
                           <i class="inline-block" data-feather="edit"></i>
                         </button>
 
