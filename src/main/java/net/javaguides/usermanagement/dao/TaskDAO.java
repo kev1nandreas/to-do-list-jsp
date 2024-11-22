@@ -7,23 +7,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import net.javaguides.usermanagement.model.User;
+import net.javaguides.usermanagement.model.Task;
 
-public class UserDAO {
+public class TaskDAO {
     private String jdbcURL = "jdbc:mysql://localhost:3306/demo?useSSL=false";
     private String jdbcUsername = "root";
     private String jdbcPassword = "";
 
-    private static final String INSERT_USERS_SQL = "INSERT INTO users" + "  (name, email, country) VALUES " +
-        " (?, ?, ?);";
+    private static final String INSERT_TASK_SQL = "INSERT INTO task" + "  (name, duedate, description, status) VALUES " +
+        " (?, ?, ?, false);";
 
-    private static final String SELECT_USER_BY_ID = "select id,name,email,country from users where id =?";
-    private static final String SELECT_ALL_USERS = "select * from users";
-    private static final String DELETE_USERS_SQL = "delete from users where id = ?;";
-    private static final String UPDATE_USERS_SQL = "update users set name = ?,email= ?, country =? where id = ?;";
+    private static final String SELECT_TASK_BY_ID = "select id,name,duedate,description,status from task where id =?";
+    private static final String SELECT_ALL_TASK = "select * from task";
+    private static final String DELETE_TASK_SQL = "delete from task where id = ?;";
+    private static final String UPDATE_TASK_SQL = "update task set name = ?,duedate= ?, description =? where id = ?;";
+    private static final String UPDATE_STATUS_SQL = "update task set status = ? where id = ?;";
 
-    public UserDAO() {}
+    public TaskDAO() {}
 
     protected Connection getConnection() {
         Connection connection = null;
@@ -37,13 +40,13 @@ public class UserDAO {
         return connection;
     }
 
-    public void insertUser(User user) throws SQLException {
-        System.out.println(INSERT_USERS_SQL);
+    public void insertTask(Task task) throws SQLException {
+        System.out.println(INSERT_TASK_SQL);
         // try-with-resource statement will auto close the connection.
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERS_SQL)) {
-            preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getEmail());
-            preparedStatement.setString(3, user.getCountry());
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(INSERT_TASK_SQL)) {
+            preparedStatement.setString(1, task.getName());
+            preparedStatement.setTimestamp(2, task.getDuedate());
+            preparedStatement.setString(3, task.getDescription());
             System.out.println(preparedStatement);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -51,12 +54,12 @@ public class UserDAO {
         }
     }
 
-    public User selectUser(int id) {
-        User user = null;
+    public Task selectTask(int id) {
+        Task task = null;
         // Step 1: Establishing a Connection
         try (Connection connection = getConnection();
             // Step 2:Create a statement using connection object
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_ID);) {
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TASK_BY_ID);) {
             preparedStatement.setInt(1, id);
             System.out.println(preparedStatement);
             // Step 3: Execute the query or update query
@@ -65,25 +68,26 @@ public class UserDAO {
             // Step 4: Process the ResultSet object.
             while (rs.next()) {
                 String name = rs.getString("name");
-                String email = rs.getString("email");
-                String country = rs.getString("country");
-                user = new User(id, name, email, country);
+                Timestamp duedate = rs.getTimestamp("duedate");
+                String description = rs.getString("description");
+                boolean status = rs.getBoolean("status");
+                task = new Task(id, name, duedate, description, status);
             }
         } catch (SQLException e) {
             printSQLException(e);
         }
-        return user;
+        return task;
     }
 
-    public List < User > selectAllUsers() {
+    public List < Task > selectAlltask() {
 
         // using try-with-resources to avoid closing resources (boiler plate code)
-        List < User > users = new ArrayList < > ();
+        List < Task > tasks = new ArrayList <  > ();
         // Step 1: Establishing a Connection
         try (Connection connection = getConnection();
 
             // Step 2:Create a statement using connection object
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS);) {
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_TASK);) {
             System.out.println(preparedStatement);
             // Step 3: Execute the query or update query
             ResultSet rs = preparedStatement.executeQuery();
@@ -92,33 +96,44 @@ public class UserDAO {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
-                String email = rs.getString("email");
-                String country = rs.getString("country");
-                users.add(new User(id, name, email, country));
+                Timestamp duedate = rs.getTimestamp("duedate");
+                String description = rs.getString("description");
+                boolean status = rs.getBoolean("status");
+                tasks.add(new Task(id, name, duedate, description, status));
             }
         } catch (SQLException e) {
             printSQLException(e);
         }
-        return users;
+        return tasks;
     }
 
-    public boolean deleteUser(int id) throws SQLException {
+    public boolean deleteTask(int id) throws SQLException {
         boolean rowDeleted;
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE_USERS_SQL);) {
+        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE_TASK_SQL);) {
             statement.setInt(1, id);
             rowDeleted = statement.executeUpdate() > 0;
         }
         return rowDeleted;
     }
 
-    public boolean updateUser(User user) throws SQLException {
+    public boolean updateTask(Task task) throws SQLException {
         boolean rowUpdated;
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_USERS_SQL);) {
-            statement.setString(1, user.getName());
-            statement.setString(2, user.getEmail());
-            statement.setString(3, user.getCountry());
-            statement.setInt(4, user.getId());
-
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_TASK_SQL)) {
+            statement.setString(1, task.getName());
+            statement.setTimestamp(2, task.getDuedate());
+            statement.setString(3, task.getDescription());
+            statement.setInt(4, task.getId());
+            rowUpdated = statement.executeUpdate() > 0;
+        }
+        return rowUpdated;
+    }
+    public boolean updateTaskStatus(int id, boolean status) throws SQLException {
+        boolean rowUpdated;
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_STATUS_SQL)) {
+            statement.setBoolean(1, status);
+            statement.setInt(2, id);
             rowUpdated = statement.executeUpdate() > 0;
         }
         return rowUpdated;
