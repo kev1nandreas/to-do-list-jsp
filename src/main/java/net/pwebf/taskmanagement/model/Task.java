@@ -1,7 +1,6 @@
 package net.pwebf.taskmanagement.model;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 public class Task {
 	protected int id;
