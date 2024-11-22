@@ -1,4 +1,4 @@
-package net.javaguides.usermanagement.model;
+package net.pwebf.usermanagement.model;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
