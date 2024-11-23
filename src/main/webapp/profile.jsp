@@ -13,7 +13,7 @@
 <body class="justify-center flex items-center h-screen">
     <div class="p-10 w-[30rem] bg-slate-200 rounded-xl">
         <h1 class="text-3xl font-bold mb-2 text-center">Retrieve Your Data</h1>
-        <p class="mb-4 text-center">Hi new member! Please register so we can know about you deeper.</p>
+        <p class="mb-4 text-center">Forgot your previous submitted data? Let's retrieve your data!</p>
 
         <p>Name</p>
         <div class="border-slate-200 p-2 px-4 w-full my-2 rounded-md bg-slate-100">${profile.name}</div>
