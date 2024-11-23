@@ -201,8 +201,7 @@
               <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
                 <ul class="nav flex-column">
                   <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page"
-                      href="task">
+                    <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="task">
                       <svg class="bi">
                         <use xlink:href="#house-fill" />
                       </svg>
@@ -239,7 +238,7 @@
 
             <div class="flex mt-8">
               <div>
-                <a href="<%= request.getContextPath() %>/new">
+                <a>
                   <button type="button" class="btn btn-dark">Add New Task</button>
                 </a>
               </div>
@@ -295,19 +294,19 @@
                         <c:out value="${task.description}" />
                       </td>
                       <td>
-                        <c:out value="${task.status}" />
                         <c:choose>
-                          <c:when test="${task.status} == false">
+                          <c:when test="${task.status == false}">
                             <span class="text-red-500">Not Done</span>
                           </c:when>
-                          <c:when test="${task.status} == true">
+                          <c:when test="${task.status == true}">
                             <span class="text-green-500">Done</span>
                           </c:when>
                         </c:choose>
                       </td>
                       <td>
-                        <button type="button" class="btn-transparent d-inline"
-                          onclick="window.location.href='edit?id=${task.id}'">
+                        <button type="button" class="edit-btn btn-transparent d-inline" data-id="${task.id}"
+                          data-name="${task.name}" data-duedate="${task.duedate}" data-description="${task.description}"
+                          data-id="${task.id}">
                           <i class="inline-block" data-feather="edit"></i>
                         </button>
 
@@ -329,10 +328,86 @@
           </main>
         </div>
       </div>
+
+      <!-- Edit Task Form Pop Up -->
+      <div
+        class="form-edit fixed top-0 right-0 left-0 bottom-0 bg-slate-900 bg-opacity-45 flex justify-center items-center hidden">
+        <div class="p-10 w-[30rem] bg-slate-200 rounded-xl relative">
+          <button>
+            <i class="feather-x absolute right-3 top-3 hover:text-red-500 hover:scale-110" data-feather="x"></i>
+          </button>
+
+          <h1 class="title text-3xl -mt-5 mb-3 font-bold text-center">Edit Your Task</h1>
+
+          <form action="update" method="post">
+            <input type="hidden" name="id" />
+
+            <label for="name">Task Name</label>
+            <input class="border-slate-200 p-2 px-4 w-full my-2 rounded-md bg-slate-100" type="text" name="name"
+              id="username">
+            <br>
+
+            <label for="duedate">Due Date</label>
+            <input class="border-slate-200 p-2 px-4 w-full my-2 rounded-md bg-slate-100" type="datetime-local"
+              name="duedate" id="duedate">
+
+            <label for="description">Description</label>
+            <textarea class="border-slate-200 p-2 px-4 w-full mt-2 rounded-md bg-slate-100" name="description"
+              id="description"></textarea>
+
+            <button type="submit"
+              class="sub-btn bg-blue-400 p-2 px-4 w-full rounded-full text-white select-none mt-4 hover:bg-blue-600">Edit</button>
+          </form>
+        </div>
+      </div>
     </body>
 
     <script>
       feather.replace();
+
+      var closeEditForm = document.querySelector('.feather-x');
+      var editForm = document.querySelector('.form-edit');
+      var formAction = document.querySelector('.form-edit form');
+
+      document.addEventListener('DOMContentLoaded', function () {
+        const editButtons = document.querySelectorAll('.edit-btn');
+        const newButton = document.querySelector('.btn-dark');
+        const taskNameInput = document.querySelector('input[name="name"]');
+        const dueDateInput = document.querySelector('input[name="duedate"]');
+        const descriptionTextarea = document.querySelector('textarea[name="description"]');
+        const taskIDInput = document.querySelector('input[name="id"]');
+        const titleForm = document.querySelector('.title');
+        const submitBtn = document.querySelector('.sub-btn');
+
+        newButton.addEventListener('click', function () {
+          titleForm.textContent = 'Add New Task';
+          submitBtn.textContent = 'Add';
+          formAction.action = 'insert';
+
+          editForm.classList.remove('hidden');
+        });
+
+        editButtons.forEach(button => {
+          button.addEventListener('click', function () {
+            const taskId = this.getAttribute('data-id');
+            const taskName = this.getAttribute('data-name');
+            const taskDueDate = this.getAttribute('data-duedate');
+            const taskDescription = this.getAttribute('data-description');
+
+            taskNameInput.value = taskName;
+            dueDateInput.value = taskDueDate;
+            descriptionTextarea.value = taskDescription;
+            taskIDInput.value = taskId;
+
+            editForm.classList.remove('hidden');
+          });
+        });
+
+        // Close the form when the close button is clicked
+        document.querySelector('.form-edit button').addEventListener('click', function () {
+          editForm.classList.add('hidden');
+        });
+      });
     </script>
 
     </html>

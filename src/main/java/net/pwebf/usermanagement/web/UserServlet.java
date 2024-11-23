@@ -58,17 +58,11 @@ public class UserServlet extends HttpServlet {
 				case "/authenticate":
 					authenticateUser(request, response);
 					break;
-				case "/new":
-					showNewForm(request, response);
-					break;
 				case "/insert":
 					insertTask(request, response);
 					break;
 				case "/delete":
 					deleteTask(request, response);
-					break;
-				case "/edit":
-					showEditForm(request, response);
 					break;
 				case "/update":
 					updateTask(request, response);
@@ -185,21 +179,6 @@ public class UserServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
-	private void showNewForm(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("task-form.jsp");
-		dispatcher.forward(request, response);
-	}
-
-	private void showEditForm(HttpServletRequest request, HttpServletResponse response)
-			throws SQLException, ServletException, IOException {
-		int id = Integer.parseInt(request.getParameter("id"));
-		Task existingTask = taskDAO.selectTask(id);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("task-form.jsp");
-		request.setAttribute("task", existingTask);
-		dispatcher.forward(request, response);
-	}
-
 	private void insertTask(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException {
 		String name = request.getParameter("name");
@@ -222,6 +201,7 @@ public class UserServlet extends HttpServlet {
 
 	private void updateTask(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException {
+		System.out.println(request);
 		int id = Integer.parseInt(request.getParameter("id"));
 		String name = request.getParameter("name");
 		try {
@@ -232,6 +212,7 @@ public class UserServlet extends HttpServlet {
 			String description = request.getParameter("description");
 
 			boolean status = Boolean.parseBoolean(request.getParameter("status"));
+			System.out.println(status);
 			Task updatedTask = new Task(id, name, duedate, description, status, u_id);
 			taskDAO.updateTask(updatedTask);
 			response.sendRedirect("task");
