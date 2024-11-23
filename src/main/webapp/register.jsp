@@ -38,7 +38,7 @@
             </form>
 
             <p class="text-center mt-3 ">Already a member?
-                <span class="font-bold hover:text-red-400"><a href="/login">Login</a></span>
+                <span class="font-bold hover:text-red-400"><a href="<%= request.getContextPath() %>/login">Login</a></span>
             </p>
         </div>
     </div>
