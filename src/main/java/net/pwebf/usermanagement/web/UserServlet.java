@@ -55,36 +55,62 @@ public class UserServlet extends HttpServlet {
 				case "/login":
 					showLoginForm(request, response);
 					break;
+				case "/logout":
+					u_id = -1;
+					response.sendRedirect("login");
+					break;
 				case "/authenticate":
 					authenticateUser(request, response);
 					break;
 				case "/insert":
-					insertTask(request, response);
-					break;
+					if (checkAuth(request, response)) {
+						insertTask(request, response);
+						break;
+					}
 				case "/delete":
-					deleteTask(request, response);
-					break;
+					if (checkAuth(request, response)) {
+						deleteTask(request, response);
+						break;
+					}
 				case "/update":
-					updateTask(request, response);
-					break;
+					if (checkAuth(request, response)) {
+						updateTask(request, response);
+						break;
+					}
 				case "/status":
-					updateTaskStatus(request, response);
-					break;
+					if (checkAuth(request, response)) {
+						updateTaskStatus(request, response);
+						break;
+					}
 				case "/find":
-					listSpesificTask(request, response);
-					break;
+					if (checkAuth(request, response)) {
+						listSpesificTask(request, response);
+						break;
+					}
 				case "/task":
-					listTask(request, response);
-					break;
+					if (checkAuth(request, response)) {
+						listTask(request, response);
+						break;
+					}
 				case "/profile":
-					seeProfile(request, response);
-					break;
+					if (checkAuth(request, response)) {
+						seeProfile(request, response);
+						break;
+					}
 				default:
 					showLoginForm(request, response);
 			}
 		} catch (Exception ex) {
 			throw new ServletException(ex);
 		}
+	}
+
+	private boolean checkAuth(HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		if (u_id == -1) {
+			return false;
+		}
+		return true;
 	}
 
 	private void showRegisterForm(HttpServletRequest request, HttpServletResponse response)
@@ -112,7 +138,7 @@ public class UserServlet extends HttpServlet {
 			user.setNotifyBefore(0);
 			try {
 				userDAO.registerUser(user); // register user
-				response.sendRedirect("login.jsp"); // Redirect after successful registration
+				response.sendRedirect("login"); // Redirect after successful registration
 			} catch (Exception x) {
 
 			}
@@ -163,7 +189,6 @@ public class UserServlet extends HttpServlet {
 	private void listTask(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
 		List<Task> listTask = taskDAO.selectAlltask();
-		System.out.println(listTask);
 		request.setAttribute("listTask", listTask);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("task-list.jsp");
 		dispatcher.forward(request, response);
