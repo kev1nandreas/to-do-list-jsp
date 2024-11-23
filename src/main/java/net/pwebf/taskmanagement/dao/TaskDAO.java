@@ -14,10 +14,11 @@ public class TaskDAO {
     private String jdbcURL = "jdbc:mysql://localhost:3306/demo?useSSL=false";
     private String jdbcUsername = "root";
     private String jdbcPassword = "";
-    
-    public static int u_id; //Placeholder uid 
-    private static final String INSERT_TASK_SQL = "INSERT INTO task" + "  (name, duedate, description, status, u_id) VALUES " +
-        " (?, ?, ?, false, ?);";
+
+    public static int u_id; // Placeholder uid
+    private static final String INSERT_TASK_SQL = "INSERT INTO task"
+            + "  (name, duedate, description, status, u_id) VALUES " +
+            " (?, ?, ?, false, ?);";
     private static final String SELECT_TASK_BY_ID = "select id,name,duedate,description,status from task where id = ?";
     private static final String SELECT_ALL_TASK = "select * from task where u_id = ?";
     private static final String DELETE_TASK_SQL = "delete from task where id = ?;";
@@ -25,7 +26,8 @@ public class TaskDAO {
     private static final String UPDATE_STATUS_SQL = "update task set status = ? where id = ?;";
     private static final String SELECT_FIND_TASK = "select * from task where name like ? and u_id = ?";
 
-    public TaskDAO() {}
+    public TaskDAO() {
+    }
 
     protected Connection getConnection() {
         Connection connection = null;
@@ -42,7 +44,8 @@ public class TaskDAO {
     public void insertTask(Task task) throws SQLException {
         System.out.println(INSERT_TASK_SQL);
         // try-with-resource statement will auto close the connection.
-        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(INSERT_TASK_SQL)) {
+        try (Connection connection = getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(INSERT_TASK_SQL)) {
             preparedStatement.setString(1, task.getName());
             preparedStatement.setTimestamp(2, task.getDuedate());
             preparedStatement.setString(3, task.getDescription());
@@ -58,8 +61,8 @@ public class TaskDAO {
         Task task = null;
         // Step 1: Establishing a Connection
         try (Connection connection = getConnection();
-            // Step 2:Create a statement using connection object
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TASK_BY_ID);) {
+                // Step 2:Create a statement using connection object
+                PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TASK_BY_ID);) {
             preparedStatement.setInt(1, id);
             System.out.println(preparedStatement);
             // Step 3: Execute the query or update query
@@ -71,7 +74,7 @@ public class TaskDAO {
                 Timestamp duedate = rs.getTimestamp("duedate");
                 String description = rs.getString("description");
                 boolean status = rs.getBoolean("status");
-                
+
                 task = new Task(id, name, duedate, description, status, u_id);
             }
         } catch (SQLException e) {
@@ -80,18 +83,18 @@ public class TaskDAO {
         return task;
     }
 
-    public List < Task > selectAlltask() {
+    public List<Task> selectAlltask() {
 
         // using try-with-resources to avoid closing resources (boiler plate code)
-        List < Task > tasks = new ArrayList <  > ();
+        List<Task> tasks = new ArrayList<>();
         // Step 1: Establishing a Connection
         try (Connection connection = getConnection();
 
-            // Step 2:Create a statement using connection object
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_TASK);)
-        
+                // Step 2:Create a statement using connection object
+                PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_TASK);)
+
         {
-        	preparedStatement.setInt(1, u_id); 
+            preparedStatement.setInt(1, u_id);
             System.out.println(preparedStatement);
             // Step 3: Execute the query or update query
             ResultSet rs = preparedStatement.executeQuery();
@@ -103,26 +106,28 @@ public class TaskDAO {
                 Timestamp duedate = rs.getTimestamp("duedate");
                 String description = rs.getString("description");
                 boolean status = rs.getBoolean("status");
-                
+
                 tasks.add(new Task(id, name, duedate, description, status, u_id));
             }
         } catch (SQLException e) {
             printSQLException(e);
         }
+
+        System.out.println(tasks);
         return tasks;
     }
-    
-    public List < Task > findTask(String name) {
+
+    public List<Task> findTask(String name) {
 
         // using try-with-resources to avoid closing resources (boiler plate code)
-        List < Task > tasks = new ArrayList <  > ();
+        List<Task> tasks = new ArrayList<>();
         // Step 1: Establishing a Connection
         try (Connection connection = getConnection();
 
-            // Step 2:Create a statement using connection object
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_FIND_TASK);) {
-        	preparedStatement.setString(1, "%" + name + "%");
-        	preparedStatement.setInt(2, u_id); 
+                // Step 2:Create a statement using connection object
+                PreparedStatement preparedStatement = connection.prepareStatement(SELECT_FIND_TASK);) {
+            preparedStatement.setString(1, "%" + name + "%");
+            preparedStatement.setInt(2, u_id);
             // Step 3: Execute the query or update query
             ResultSet rs = preparedStatement.executeQuery();
 
@@ -133,8 +138,8 @@ public class TaskDAO {
                 Timestamp duedate = rs.getTimestamp("duedate");
                 String description = rs.getString("description");
                 boolean status = rs.getBoolean("status");
-                
-                tasks.add(new Task(id, names, duedate, description, status,u_id));
+
+                tasks.add(new Task(id, names, duedate, description, status, u_id));
             }
         } catch (SQLException e) {
             printSQLException(e);
@@ -144,7 +149,8 @@ public class TaskDAO {
 
     public boolean deleteTask(int id) throws SQLException {
         boolean rowDeleted;
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE_TASK_SQL);) {
+        try (Connection connection = getConnection();
+                PreparedStatement statement = connection.prepareStatement(DELETE_TASK_SQL);) {
             statement.setInt(1, id);
             rowDeleted = statement.executeUpdate() > 0;
         }
@@ -154,7 +160,7 @@ public class TaskDAO {
     public boolean updateTask(Task task) throws SQLException {
         boolean rowUpdated;
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_TASK_SQL)) {
+                PreparedStatement statement = connection.prepareStatement(UPDATE_TASK_SQL)) {
             statement.setString(1, task.getName());
             statement.setTimestamp(2, task.getDuedate());
             statement.setString(3, task.getDescription());
@@ -163,10 +169,11 @@ public class TaskDAO {
         }
         return rowUpdated;
     }
+
     public boolean updateTaskStatus(int id, boolean status) throws SQLException {
         boolean rowUpdated;
         try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_STATUS_SQL)) {
+                PreparedStatement statement = connection.prepareStatement(UPDATE_STATUS_SQL)) {
             statement.setBoolean(1, status);
             statement.setInt(2, id);
             rowUpdated = statement.executeUpdate() > 0;
@@ -175,7 +182,7 @@ public class TaskDAO {
     }
 
     private void printSQLException(SQLException ex) {
-        for (Throwable e: ex) {
+        for (Throwable e : ex) {
             if (e instanceof SQLException) {
                 e.printStackTrace(System.err);
                 System.err.println("SQLState: " + ((SQLException) e).getSQLState());
