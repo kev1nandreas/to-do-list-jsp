@@ -13,7 +13,7 @@
         <div class="p-10 w-[30rem]">
             <h1 class="text-3xl font-bold mb-2">Register</h1>
             <p class="mb-4">Hi new member! Please register so we can know about you deeper.</p>
-            <form action="<%= request.getContextPath() %>/register" method="post">
+            <form action="<%= request.getContextPath() %>/newuser" method="post">
                 <input class="border-slate-200 p-2 px-4 w-full my-2 rounded-md bg-slate-100" type="text" name="name"
                     id="name" placeholder="Type your full name">
                 <br>
