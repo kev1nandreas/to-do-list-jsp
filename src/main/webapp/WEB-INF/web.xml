@@ -8,35 +8,22 @@
   
   <display-name>quiz2</display-name>
 
-  <!-- Welcome file configuration -->
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>login.jsp</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-  </welcome-file-list>
-
-  <!-- Servlet mapping for TaskServlet -->
-  <servlet>
-    <servlet-name>TaskServlet</servlet-name>
-    <servlet-class>com.yourpackage.TaskServlet</servlet-class> <!-- Replace with your actual class -->
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>TaskServlet</servlet-name>
-    <url-pattern>/quiz2/register</url-pattern>
-    <url-pattern>/quiz2/login</url-pattern>
-    <url-pattern>/quiz2/newuser</url-pattern>
-    <url-pattern>/quiz2/authenticate</url-pattern>
-    <url-pattern>/quiz2/task</url-pattern>
-    <url-pattern>/quiz2/insert</url-pattern>
-    <url-pattern>/quiz2/delete</url-pattern>
-    <url-pattern>/quiz2/update</url-pattern>
-    <url-pattern>/quiz2/status</url-pattern>
-    <url-pattern>/quiz2/profile</url-pattern>
-    <!-- Add any other URL patterns that your servlet handles -->
-  </servlet-mapping>
-
-</web-app>
+<servlet>
+    <servlet-name>UserServlet</servlet-name>
+    <servlet-class>usermanagement.web.UserServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>UserServlet</servlet-name>
+    <url-pattern>/register</url-pattern>
+    <url-pattern>/newuser</url-pattern>
+    <url-pattern>/login</url-pattern>
+    <url-pattern>/logout</url-pattern>
+    <url-pattern>/authenticate</url-pattern>
+    <url-pattern>/insert</url-pattern>
+    <url-pattern>/delete</url-pattern>
+    <url-pattern>/update</url-pattern>
+    <url-pattern>/status</url-pattern>
+    <url-pattern>/find</url-pattern>
+    <url-pattern>/task</url-pattern>
+    <url-pattern>/profile</url-pattern>
+</servlet-mapping>

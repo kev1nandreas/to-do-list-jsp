@@ -46,7 +46,7 @@ public class UserServlet extends HttpServlet {
 
 		try {
 			switch (action) {
-				case "/quiz2/register":
+				case "/register":
 					showRegisterForm(request, response);
 					break;
 				case "/newuser":
