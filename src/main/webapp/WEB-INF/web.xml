@@ -26,16 +26,16 @@
 
   <servlet-mapping>
     <servlet-name>TaskServlet</servlet-name>
-    <url-pattern>/register</url-pattern>
-    <url-pattern>/login</url-pattern>
-    <url-pattern>/newuser</url-pattern>
-    <url-pattern>/authenticate</url-pattern>
-    <url-pattern>/task</url-pattern>
-    <url-pattern>/insert</url-pattern>
-    <url-pattern>/delete</url-pattern>
-    <url-pattern>/update</url-pattern>
-    <url-pattern>/status</url-pattern>
-    <url-pattern>/profile</url-pattern>
+    <url-pattern>/quiz2/register</url-pattern>
+    <url-pattern>/quiz2/login</url-pattern>
+    <url-pattern>/quiz2/newuser</url-pattern>
+    <url-pattern>/quiz2/authenticate</url-pattern>
+    <url-pattern>/quiz2/task</url-pattern>
+    <url-pattern>/quiz2/insert</url-pattern>
+    <url-pattern>/quiz2/delete</url-pattern>
+    <url-pattern>/quiz2/update</url-pattern>
+    <url-pattern>/quiz2/status</url-pattern>
+    <url-pattern>/quiz2/profile</url-pattern>
     <!-- Add any other URL patterns that your servlet handles -->
   </servlet-mapping>
 
