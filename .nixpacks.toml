@@ -1,5 +1,0 @@
-[phases]
-
-install = "./gradlew dependencies"
-build = "./gradlew build"
-start = "java -jar build/libs/your-app.jar"

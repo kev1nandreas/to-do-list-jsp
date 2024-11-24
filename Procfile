@@ -1,1 +1,0 @@
-web: catalina.sh run
