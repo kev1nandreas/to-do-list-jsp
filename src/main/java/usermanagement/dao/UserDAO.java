@@ -13,7 +13,7 @@ public class UserDAO {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             // Define the database URL, username, and password
-            String url = "jdbc:mysql://mysql.railway.internal:3306/railway";
+            String url = "jdbc:mysql://root:wcXzdUiNIUDswxShyEIELHseiyjoqMYR@junction.proxy.rlwy.net:41386/railway";
             String user = "root";
             String password = "wcXzdUiNIUDswxShyEIELHseiyjoqMYR";
 
