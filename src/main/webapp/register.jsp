@@ -28,6 +28,7 @@
                     <h1 class="text-3xl font-bold mb-2">Register</h1>
                     <p class="mb-4">Hi new member! Please register so we can know about you deeper.</p>
 
+
                     <form action="<%= request.getContextPath() %>/newuser" method="post">
                         <!-- Full Name -->
                         <input class="border-slate-200 p-2 px-4 w-full my-2 rounded-md bg-slate-100" type="text"
@@ -40,14 +41,25 @@
                         <br>
 
                         <!-- Phone -->
-                        <input class="border-slate-200 p-2 px-4 w-full my-2 rounded-md bg-slate-100" type="text"
-                            name="phone" id="phone" placeholder="Type your phone number" minlength="8" required>
-                        <br>
+                <input class="border-slate-200 p-2 px-4 w-full my-2 rounded-md bg-slate-100" 
+                        type="text" 
+                        name="phone" 
+                        id="phone" 
+                        placeholder="Type your phone number" 
+                        pattern="\d{8,}" 
+                        minlength="8" 
+                        required>
+                <br>
 
-                        <!-- Username -->
-                        <input class="border-slate-200 p-2 px-4 w-full my-2 rounded-md bg-slate-100" type="text"
-                            name="username" id="username" placeholder="Type your username" required>
-                        <br>
+
+                <!-- Username -->
+                <input class="border-slate-200 p-2 px-4 w-full my-2 rounded-md bg-slate-100" 
+                       type="text" 
+                       name="username" 
+                       id="username" 
+                       placeholder="Type your username" 
+                       required>
+                <br>
 
                         <!-- Password -->
                         <input class="border-slate-200 p-2 px-4 w-full my-2 rounded-md bg-slate-100" type="password"
