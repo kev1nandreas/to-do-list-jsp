@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
+                             http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" 
+         id="WebApp_ID" 
+         version="3.1">
+  
   <display-name>quiz2</display-name>
+
+  <!-- Welcome file configuration -->
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.jsp</welcome-file>
@@ -9,4 +17,26 @@
     <welcome-file>login.jsp</welcome-file>
     <welcome-file>default.htm</welcome-file>
   </welcome-file-list>
+
+  <!-- Servlet mapping for TaskServlet -->
+  <servlet>
+    <servlet-name>TaskServlet</servlet-name>
+    <servlet-class>com.yourpackage.TaskServlet</servlet-class> <!-- Replace with your actual class -->
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>TaskServlet</servlet-name>
+    <url-pattern>/register</url-pattern>
+    <url-pattern>/login</url-pattern>
+    <url-pattern>/newuser</url-pattern>
+    <url-pattern>/authenticate</url-pattern>
+    <url-pattern>/task</url-pattern>
+    <url-pattern>/insert</url-pattern>
+    <url-pattern>/delete</url-pattern>
+    <url-pattern>/update</url-pattern>
+    <url-pattern>/status</url-pattern>
+    <url-pattern>/profile</url-pattern>
+    <!-- Add any other URL patterns that your servlet handles -->
+  </servlet-mapping>
+
 </web-app>
