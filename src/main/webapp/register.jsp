@@ -13,32 +13,66 @@
         <div class="p-10 w-[30rem]">
             <h1 class="text-3xl font-bold mb-2">Register</h1>
             <p class="mb-4">Hi new member! Please register so we can know about you deeper.</p>
+
             <form action="<%= request.getContextPath() %>/newuser" method="post">
-                <input class="border-slate-200 p-2 px-4 w-full my-2 rounded-md bg-slate-100" type="text" name="name"
-                    id="name" placeholder="Type your full name">
+                <!-- Full Name -->
+                <input class="border-slate-200 p-2 px-4 w-full my-2 rounded-md bg-slate-100" 
+                       type="text" 
+                       name="name" 
+                       id="name" 
+                       placeholder="Type your full name" 
+                       required>
                 <br>
 
-                <input class="border-slate-200 p-2 px-4 w-full my-2 rounded-md bg-slate-100" type="email" name="email"
-                    id="email" placeholder="Type your valid email">
+                <!-- Email -->
+                <input class="border-slate-200 p-2 px-4 w-full my-2 rounded-md bg-slate-100" 
+                       type="email" 
+                       name="email" 
+                       id="email" 
+                       placeholder="Type your valid email" 
+                       required>
                 <br>
 
-                <input class="border-slate-200 p-2 px-4 w-full my-2 rounded-md bg-slate-100" type="text" name="phone"
-                    id="phone" placeholder="Type your phone number">
+                <!-- Phone -->
+                <input class="border-slate-200 p-2 px-4 w-full my-2 rounded-md bg-slate-100" 
+                       type="text" 
+                       name="phone" 
+                       id="phone" 
+                       placeholder="Type your phone number" 
+                       minlength="8" 
+                       required>
                 <br>
 
-                <input class="border-slate-200 p-2 px-4 w-full my-2 rounded-md bg-slate-100" type="text" name="username"
-                    id="username" placeholder="Type your username">
+                <!-- Username -->
+                <input class="border-slate-200 p-2 px-4 w-full my-2 rounded-md bg-slate-100" 
+                       type="text" 
+                       name="username" 
+                       id="username" 
+                       placeholder="Type your username" 
+                       required>
                 <br>
 
-                <input class="border-slate-200 p-2 px-4 w-full my-2 rounded-md bg-slate-100" type="password"
-                    name="password" id="password" placeholder="Type your strong password">
+                <!-- Password -->
+                <input class="border-slate-200 p-2 px-4 w-full my-2 rounded-md bg-slate-100" 
+                       type="password" 
+                       name="password" 
+                       id="password" 
+                       placeholder="Type your strong password" 
+                       minlength="6" 
+                       required>
 
+                <!-- Submit Button -->
                 <button type="submit"
-                    class="bg-blue-400 p-2 px-4 w-full rounded-full text-white select-none mt-5 hover:bg-blue-600">Register</button>
+                    class="bg-blue-400 p-2 px-4 w-full rounded-full text-white select-none mt-5 hover:bg-blue-600">
+                    Register
+                </button>
             </form>
 
-            <p class="text-center mt-3 ">Already a member?
-                <span class="font-bold hover:text-red-400"><a href="<%= request.getContextPath() %>/login">Login</a></span>
+            <!-- Redirect to Login -->
+            <p class="text-center mt-3">Already a member?
+                <span class="font-bold hover:text-red-400">
+                    <a href="<%= request.getContextPath() %>/login">Login</a>
+                </span>
             </p>
         </div>
     </div>
