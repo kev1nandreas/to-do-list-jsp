@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+  <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
     <!DOCTYPE html>
     <html lang="en" data-bs-theme="auto">
@@ -19,6 +20,67 @@
           display: inline-block;
           width: 1rem;
           height: 1rem;
+        }
+
+        .btn-transparent {
+          background-color: transparent;
+          border: none;
+          color: inherit;
+          cursor: pointer;
+          padding: 0;
+          font: inherit;
+
+        }
+
+        .btn-transparent:hover {
+          color: blue;
+        }
+
+        .d-inline {
+          display: inline-block;
+          vertical-align: middle;
+        }
+
+        .table {
+          border-color: black;
+        }
+
+        .table-hover th,
+        .table-hover td {
+          border: 1px solid #ddd;
+          padding: 8px;
+          border-color: #444;
+        }
+
+        .table-hover th {
+          background-color: lightgray;
+          text-align: center;
+        }
+
+        .table-hover tbody td:nth-child(1) {
+          background-color: #E3E3FF;
+          text-align: center;
+        }
+
+        .table-hover tbody td:nth-child(2) {
+          background-color: #DFF2FD;
+        }
+
+        .table-hover tbody td:nth-child(3) {
+          background-color: #E2FCE6;
+        }
+
+        .table-hover tbody td:nth-child(4) {
+          background-color: #FCFADE;
+        }
+
+        .table-hover tbody td:nth-child(5) {
+          background-color: #FFEEE2;
+        }
+
+        .table-hover tbody td:nth-child(6) {
+          background-color: #FFDBDB;
+          justify-content: center;
         }
 
         /*
@@ -239,7 +301,10 @@
             <div class="flex mt-8">
               <div>
                 <a>
-                  <button type="button" class="btn btn-dark">Add New Task</button>
+                  <button type="button" class="btn btn-dark flex justify-center items-center">
+                    <span class="md:inline-block hidden">Add New Task </span>
+                    <span class="md:hidden inline-block"><i data-feather="plus-circle"></i></span>
+                  </button>
                 </a>
               </div>
 
@@ -258,52 +323,47 @@
 
             <div class="overflow-scroll mt-3">
               <table class="table table-hover">
-                <thead>
+                <thead class="text-center">
                   <tr>
-                    <th scope="col" class="w-[4rem]">
-                      <button class="sort-btn" id="sortNo">
-                        No
-                        <i class="bi bi-arrow-down-up"></i>
-                      </button>
-                    </th>
+                    <th scope="col" class="w-[4rem]">No</th>
                     <th class="w-[15rem]" scope="col">Name</th>
-                    <th scope="col">
-                      <button class="sort-btn" id="sortDate">
-                        Due Date
-                        <i class="bi bi-arrow-down-up"></i>
-                      </button>
-                    </th>
+                    <th class="w-[10rem]" scope="col">Due Date</th>
                     <th class="hidden md:table-cell" scope="col">Description</th>
-                    <th class="" scope="col">Completed</th>
-                    <th scope="col">Action</th>
+                    <th class="w-20" scope="col">Completed</th>
+                    <th class="w-[8rem]" scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <c:forEach var="task" items="${listTask}" varStatus="status">
-                    <tr>
+                    <tr class="align-middle">
                       <td>
                         <c:out value="${status.index + 1}" />
                       </td>
                       <td>
                         <c:out value="${task.name}" />
                       </td>
-                      <td>
-                        <c:out value="${task.duedate}" />
+                      <td class="text-center">
+                        <span>
+                          <fmt:formatDate value="${task.duedate}" pattern="d MMMM yyyy" />
+                        </span>
+                        <span>
+                          <fmt:formatDate value="${task.duedate}" pattern="HH:mm" />
+                        </span>
                       </td>
-                      <td>
+                      <td class="hidden md:table-cell">
                         <c:out value="${task.description}" />
                       </td>
-                      <td>
+                      <td class="text-center">
                         <c:choose>
                           <c:when test="${task.status == false}">
-                            <span class="text-red-500">Not Done</span>
+                            <span class="text-red-500 font-bold">Not Done</span>
                           </c:when>
                           <c:when test="${task.status == true}">
-                            <span class="text-green-500">Done</span>
+                            <span class="text-green-500 font-bold">Done</span>
                           </c:when>
                         </c:choose>
                       </td>
-                      <td>
+                      <td class="text-center">
                         <button type="button" class="edit-btn btn-transparent d-inline" data-id="${task.id}"
                           data-name="${task.name}" data-duedate="${task.duedate}" data-description="${task.description}"
                           data-id="${task.id}">
@@ -344,12 +404,12 @@
 
             <label for="name">Task Name</label>
             <input class="border-slate-200 p-2 px-4 w-full my-2 rounded-md bg-slate-100" type="text" name="name"
-              id="username">
+              id="username" required>
             <br>
 
             <label for="duedate">Due Date</label>
             <input class="border-slate-200 p-2 px-4 w-full my-2 rounded-md bg-slate-100" type="datetime-local"
-              name="duedate" id="duedate">
+              name="duedate" id="duedate" required>
 
             <label for="description">Description</label>
             <textarea class="border-slate-200 p-2 px-4 w-full mt-2 rounded-md bg-slate-100" name="description"
