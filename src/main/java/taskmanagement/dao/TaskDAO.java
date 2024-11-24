@@ -15,11 +15,11 @@ public class TaskDAO {
             + "  (name, duedate, description, status, u_id) VALUES " +
             " (?, ?, ?, false, ?);";
     private static final String SELECT_TASK_BY_ID = "select id,name,duedate,description,status from task where id = ?";
-    private static final String SELECT_ALL_TASK = "select * from task where u_id = ?";
+    private static final String SELECT_ALL_TASK = "select * from task where u_id = ? order by status asc, duedate asc";
     private static final String DELETE_TASK_SQL = "delete from task where id = ?;";
     private static final String UPDATE_TASK_SQL = "update task set name = ?,duedate= ?, description =? where id = ?;";
     private static final String UPDATE_STATUS_SQL = "update task set status = ? where id = ?;";
-    private static final String SELECT_FIND_TASK = "select * from task where name like ? and u_id = ?";
+    private static final String SELECT_FIND_TASK = "select * from task where name like ? and u_id = ? order by status asc, duedate asc";
 
     public TaskDAO() {
     }
@@ -107,8 +107,6 @@ public class TaskDAO {
         } catch (SQLException e) {
             printSQLException(e);
         }
-
-        System.out.println(tasks);
         return tasks;
     }
 
