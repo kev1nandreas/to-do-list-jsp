@@ -6,8 +6,8 @@ import java.sql.*;
 import java.util.*;
 
 public class TaskDAO {
-    private String jdbcURL = "jdbc:mysql://root:wcXzdUiNIUDswxShyEIELHseiyjoqMYR@mysql.railway.internal:3306/railway";
-    private String jdbcUsername = "railway";
+    private String jdbcURL = "jdbc:mysql://mysql.railway.internal:3306/railway";
+    private String jdbcUsername = "root";
     private String jdbcPassword = "wcXzdUiNIUDswxShyEIELHseiyjoqMYR";
 
     public static int u_id; // Placeholder uid

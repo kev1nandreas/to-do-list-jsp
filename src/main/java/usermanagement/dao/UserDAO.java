@@ -1,4 +1,5 @@
 package usermanagement.dao;
+
 import usermanagement.model.User;
 
 import java.sql.*;
@@ -11,7 +12,13 @@ public class UserDAO {
         Connection connection = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://root:wcXzdUiNIUDswxShyEIELHseiyjoqMYR@mysql.railway.internal:3306/railway", "railway", "wcXzdUiNIUDswxShyEIELHseiyjoqMYR");
+            // Define the database URL, username, and password
+            String url = "jdbc:mysql://mysql.railway.internal:3306/railway";
+            String user = "root";
+            String password = "wcXzdUiNIUDswxShyEIELHseiyjoqMYR";
+
+            // Establish the connection
+            connection = DriverManager.getConnection(url, user, password);
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -21,12 +28,12 @@ public class UserDAO {
     public boolean registerUser(User user) throws ClassNotFoundException {
         final String INSERT_USER_SQL = "INSERT INTO users (name, email, phone, username, password, notify, notify_before) VALUES (?, ?, ?, ?, ?, false, 0);";
         final String CHECK_AVAILABILITY_SQL = "SELECT * FROM users WHERE username = ?";
-    
+
         // Load MySQL driver
         Class.forName("com.mysql.cj.jdbc.Driver");
-    
+
         try (Connection connection = getConnection();
-             PreparedStatement checkStatement = connection.prepareStatement(CHECK_AVAILABILITY_SQL)) {
+                PreparedStatement checkStatement = connection.prepareStatement(CHECK_AVAILABILITY_SQL)) {
             // Check if the user already exists
             checkStatement.setString(1, user.getUsername());
             System.out.println(checkStatement);
@@ -53,15 +60,15 @@ public class UserDAO {
     }
 
     public Integer validate(User user) throws ClassNotFoundException {
-    	Integer userId = -1;
+        Integer userId = -1;
 
         Class.forName("com.mysql.cj.jdbc.Driver");
 
         try (Connection connection = getConnection();
 
-             // Step 2: Create a statement using connection object
-             PreparedStatement preparedStatement = connection.prepareStatement(
-                 "SELECT * FROM users WHERE username = ? AND password = ?")) {
+                // Step 2: Create a statement using connection object
+                PreparedStatement preparedStatement = connection.prepareStatement(
+                        "SELECT * FROM users WHERE username = ? AND password = ?")) {
 
             // Set the username and password from the User object
             preparedStatement.setString(1, user.getUsername());
@@ -74,7 +81,7 @@ public class UserDAO {
             if (rs.next()) {
                 userId = rs.getInt("id"); // Get the user ID if credentials match
             }
-            
+
         } catch (SQLException e) {
             printSQLException(e); // Log SQL exceptions
         }
@@ -83,9 +90,8 @@ public class UserDAO {
         return userId;
     }
 
-
     private void printSQLException(SQLException ex) {
-        for (Throwable e: ex) {
+        for (Throwable e : ex) {
             if (e instanceof SQLException) {
                 e.printStackTrace(System.err);
                 System.err.println("SQLState: " + ((SQLException) e).getSQLState());
@@ -104,8 +110,9 @@ public class UserDAO {
         User user = new User();
         // Step 1: Establishing a Connection
         try (Connection connection = getConnection();
-            // Step 2:Create a statement using connection object
-            PreparedStatement preparedStatement = connection.prepareStatement("select * from users where id = ?");) {
+                // Step 2:Create a statement using connection object
+                PreparedStatement preparedStatement = connection
+                        .prepareStatement("select * from users where id = ?");) {
             preparedStatement.setInt(1, this.authID);
             System.out.println(preparedStatement);
             // Step 3: Execute the query or update query
