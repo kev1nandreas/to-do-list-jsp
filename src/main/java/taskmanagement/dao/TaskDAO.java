@@ -6,9 +6,9 @@ import java.sql.*;
 import java.util.*;
 
 public class TaskDAO {
-    private String jdbcURL = "jdbc:mysql://localhost:3306/demo?useSSL=false";
-    private String jdbcUsername = "root";
-    private String jdbcPassword = "";
+    private String jdbcURL = "jdbc:mysql://root:wcXzdUiNIUDswxShyEIELHseiyjoqMYR@mysql.railway.internal:3306/railway";
+    private String jdbcUsername = "railway";
+    private String jdbcPassword = "wcXzdUiNIUDswxShyEIELHseiyjoqMYR";
 
     public static int u_id; // Placeholder uid
     private static final String INSERT_TASK_SQL = "INSERT INTO task"
