@@ -18,56 +18,39 @@ public class UserDAO {
         return connection;
     }
 
-    public int registerUser(User user) throws ClassNotFoundException {
-    	//System.out.println("hi1");
-        String INSERT_USER_SQL = "INSERT INTO users" +
-            "  (name, email, phone, username, password, notify, notify_before) VALUES " +
-            " (?, ?, ?, ?, ?, false, 0);";
-        //System.out.println("hi2");
-
-        int result = 0;
-
+    public boolean registerUser(User user) throws ClassNotFoundException {
+        final String INSERT_USER_SQL = "INSERT INTO users (name, email, phone, username, password, notify, notify_before) VALUES (?, ?, ?, ?, ?, false, 0);";
+        final String CHECK_AVAILABILITY_SQL = "SELECT 1 FROM users WHERE username = ?";
+    
         // Load MySQL driver
         Class.forName("com.mysql.cj.jdbc.Driver");
-
+    
         try (Connection connection = getConnection();
-            // Create a statement using the connection object
-            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_SQL)) {
-
-            preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getEmail());
-            preparedStatement.setString(3, user.getPhone());
-            preparedStatement.setString(4, user.getUsername());
-            preparedStatement.setString(5, user.getPassword());
-            //preparedStatement.setBoolean(6, user.isNotify());
-            //preparedStatement.setInt(7, user.getNotifyBefore());
-            
-            System.out.println(preparedStatement);
-            // Execute the query or update query
-            result = preparedStatement.executeUpdate();
-            //System.out.println("hi3");
-
-        } catch (SQLException e) {
-            // Process SQL exception
-            printSQLException(e);
-        }
-        return result;
-    }
-    public Integer getUserIdByCredentials(String username, String password) throws SQLException {
-        String sql = "SELECT id FROM users WHERE username = ? AND password = ?";
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password);
-            ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("id"); // Return the user ID if credentials are valid
+             PreparedStatement checkStatement = connection.prepareStatement(CHECK_AVAILABILITY_SQL)) {
+    
+            // Check if the user already exists
+            checkStatement.setString(1, user.getUsername());
+            try (ResultSet rs = checkStatement.executeQuery()) {
+                if (rs.next()) {
+                    return false;
+                }
+            }
+    
+            // Insert new user
+            try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_SQL)) {
+                preparedStatement.setString(1, user.getName());
+                preparedStatement.setString(2, user.getEmail());
+                preparedStatement.setString(3, user.getPhone());
+                preparedStatement.setString(4, user.getUsername());
+                preparedStatement.setString(5, user.getPassword());
+                preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
             printSQLException(e);
         }
-        return null; // Return null if no user found
+        return true;
     }
+
     public Integer validate(User user) throws ClassNotFoundException {
     	Integer userId = -1;
 

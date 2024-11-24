@@ -135,11 +135,11 @@ public class UserServlet extends HttpServlet {
 			user.setPassword(password);
 			user.setNotify(false);
 			user.setNotifyBefore(0);
-			try {
-				userDAO.registerUser(user); // register user
-				response.sendRedirect("login"); // Redirect after successful registration
-			} catch (Exception x) {
-
+			if (userDAO.registerUser(user)) {
+				response.sendRedirect("login");
+			} else {
+				request.setAttribute("error", "Registration failed! Please try again.");
+				showRegisterForm(request, response); // Show the registration form with an error message
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
