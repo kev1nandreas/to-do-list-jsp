@@ -53,7 +53,7 @@
                         <br>
 
                         <!-- Password -->
-                        <input class="border-slate-200 p-2 px-4 w-full my-2 rounded-md bg-slate-100" type="password"
+                        <input class="border-slate-200 p-2 px-4 w-full mt-2 rounded-md bg-slate-100" type="password"
                             name="password" id="password" placeholder="Type your strong password" minlength="6"
                             required>
 

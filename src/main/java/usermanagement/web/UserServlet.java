@@ -1,6 +1,7 @@
 package usermanagement.web;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -136,9 +137,10 @@ public class UserServlet extends HttpServlet {
 			user.setNotify(false);
 			user.setNotifyBefore(0);
 			if (userDAO.registerUser(user)) {
-				response.sendRedirect("login");
+				String successMessage = "Registration successful! Please login.";
+				response.sendRedirect("login?success=" + URLEncoder.encode(successMessage, "UTF-8"));
 			} else {
-				request.setAttribute("error", "Registration failed! Please try again.");
+				request.setAttribute("error", "Registration failed! Username has been used.");
 				showRegisterForm(request, response); // Show the registration form with an error message
 			}
 		} catch (Exception e) {

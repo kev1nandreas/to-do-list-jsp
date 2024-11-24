@@ -27,7 +27,6 @@ public class UserDAO {
     
         try (Connection connection = getConnection();
              PreparedStatement checkStatement = connection.prepareStatement(CHECK_AVAILABILITY_SQL)) {
-    
             // Check if the user already exists
             checkStatement.setString(1, user.getUsername());
             try (ResultSet rs = checkStatement.executeQuery()) {
@@ -35,7 +34,6 @@ public class UserDAO {
                     return false;
                 }
             }
-    
             // Insert new user
             try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_SQL)) {
                 preparedStatement.setString(1, user.getName());
