@@ -1,12 +1,7 @@
-package net.pwebf.usermanagement.dao;
+package usermanagement.dao;
+import usermanagement.model.User;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import net.pwebf.usermanagement.model.User;
+import java.sql.*;
 
 public class UserDAO {
 
@@ -35,11 +30,10 @@ public class UserDAO {
         // Load MySQL driver
         Class.forName("com.mysql.cj.jdbc.Driver");
 
-        try (Connection connection = DriverManager
-            .getConnection("jdbc:mysql://localhost:3306/demo?useSSL=false", "root", "");
-
+        try (Connection connection = getConnection();
             // Create a statement using the connection object
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_SQL)) {
+
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setString(3, user.getPhone());
@@ -61,8 +55,7 @@ public class UserDAO {
     }
     public Integer getUserIdByCredentials(String username, String password) throws SQLException {
         String sql = "SELECT id FROM users WHERE username = ? AND password = ?";
-        try (Connection connection = DriverManager
-                .getConnection("jdbc:mysql://localhost:3306/demo?useSSL=false", "root", "");
+        try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
@@ -80,8 +73,7 @@ public class UserDAO {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
 
-        try (Connection connection = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/demo?useSSL=false", "root", "");
+        try (Connection connection = getConnection();
 
              // Step 2: Create a statement using connection object
              PreparedStatement preparedStatement = connection.prepareStatement(

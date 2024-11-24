@@ -1,4 +1,4 @@
-package net.pwebf.usermanagement.web;
+package usermanagement.web;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -14,11 +14,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.pwebf.taskmanagement.dao.TaskDAO;
-import net.pwebf.taskmanagement.model.Task;
-//import net.pwebf.taskmanagement.web.TaskServlet;
-import net.pwebf.usermanagement.dao.UserDAO;
-import net.pwebf.usermanagement.model.User;
+import taskmanagement.dao.TaskDAO;
+import taskmanagement.model.Task;
+import usermanagement.dao.UserDAO;
+import usermanagement.model.User;
 
 @WebServlet("/")
 public class UserServlet extends HttpServlet {
