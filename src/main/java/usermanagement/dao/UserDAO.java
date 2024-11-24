@@ -1,8 +1,11 @@
 package usermanagement.dao;
 
-import usermanagement.model.User;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-import java.sql.*;
+import usermanagement.model.User;
 
 public class UserDAO {
 
@@ -13,7 +16,7 @@ public class UserDAO {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             // Define the database URL, username, and password
-            String url = "jdbc:mysql://junction.proxy.rlwy.net:41386/railway";
+            String url = "jdbc:mysql://mysql.railway.internal:3306/railway";
             String user = "root";
             String password = "wcXzdUiNIUDswxShyEIELHseiyjoqMYR";
 
