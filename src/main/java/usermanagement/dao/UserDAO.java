@@ -20,7 +20,7 @@ public class UserDAO {
 
     public boolean registerUser(User user) throws ClassNotFoundException {
         final String INSERT_USER_SQL = "INSERT INTO users (name, email, phone, username, password, notify, notify_before) VALUES (?, ?, ?, ?, ?, false, 0);";
-        final String CHECK_AVAILABILITY_SQL = "SELECT 1 FROM users WHERE username = ?";
+        final String CHECK_AVAILABILITY_SQL = "SELECT * FROM users WHERE username = ?";
     
         // Load MySQL driver
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -29,6 +29,7 @@ public class UserDAO {
              PreparedStatement checkStatement = connection.prepareStatement(CHECK_AVAILABILITY_SQL)) {
             // Check if the user already exists
             checkStatement.setString(1, user.getUsername());
+            System.out.println(checkStatement);
             try (ResultSet rs = checkStatement.executeQuery()) {
                 if (rs.next()) {
                     return false;
@@ -41,7 +42,9 @@ public class UserDAO {
                 preparedStatement.setString(3, user.getPhone());
                 preparedStatement.setString(4, user.getUsername());
                 preparedStatement.setString(5, user.getPassword());
-                preparedStatement.executeUpdate();
+                int result = preparedStatement.executeUpdate();
+                System.out.println(result);
+                System.out.println(preparedStatement);
             }
         } catch (SQLException e) {
             printSQLException(e);
