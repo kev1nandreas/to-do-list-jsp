@@ -1,4 +1,4 @@
-package net.pwebf.taskmanagement.model;
+package taskmanagement.model;
 
 import java.sql.Timestamp;
 

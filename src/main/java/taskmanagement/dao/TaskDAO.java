@@ -1,14 +1,9 @@
-package net.pwebf.taskmanagement.dao;
+package taskmanagement.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.sql.Timestamp;
-import net.pwebf.taskmanagement.model.Task;
+import taskmanagement.model.Task;
+
+import java.sql.*;
+import java.util.*;
 
 public class TaskDAO {
     private String jdbcURL = "jdbc:mysql://localhost:3306/demo?useSSL=false";

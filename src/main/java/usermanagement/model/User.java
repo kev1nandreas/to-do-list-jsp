@@ -1,4 +1,4 @@
-package net.pwebf.usermanagement.model;
+package usermanagement.model;
 
 public class User {
     protected int id;
