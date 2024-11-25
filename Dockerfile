@@ -2,7 +2,7 @@
 FROM tomcat:8.5
 
 # Copy your WAR file into the Tomcat webapps directory
-COPY quiz2.war /usr/local/tomcat/webapps/
+COPY ROOT.war /usr/local/tomcat/webapps/
 
 # Expose port 8080
 EXPOSE 8080
